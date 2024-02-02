@@ -1,5 +1,8 @@
 package com.ariadna.curso.springboot.webapp.springbootweb.controller;
+//import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,8 +11,7 @@ import com.ariadna.curso.springboot.webapp.springbootweb.models.User;
 import com.ariadna.curso.springboot.webapp.springbootweb.models.dto.UserDto;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -25,6 +27,20 @@ public class UserRestController {
         userDto.setTitle("El titulo");
         userDto.setUser(user);
         return userDto;
+    }
+    @GetMapping("/list")
+    public List<User> list(){
+        User user= new User("Ariadna", "Garcia");
+        User user2= new User("Pablo", "Garcia");
+        User user3= new User("Jhon", "Doe");
+
+        List<User> users =Arrays.asList(user,user2,user3);
+        // List<User>list=new ArrayList<>();
+        // list.add(user);
+        // list.add(user2);
+        // list.add(user3);
+        return users;
+
     }
 
     @GetMapping("/details-maps")
