@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,8 +38,15 @@ public class PathVariableController {
     private String valueString;
     @Value("${config.code}")
     private Long  code;
-    
-    
+
+    @Value("#{${config.valuesMap}}")
+    private  Map<String,Object> valuesMap;
+    @Value("#{${config.valuesMap}.product}")
+    private String product;
+    @Value("#{${config.valuesMap}.price}")
+    private Long price;
+    @Autowired
+    private Environment environment;
     @GetMapping("/baz/{message}")
     public ParamDto baz(@PathVariable String message) {
         ParamDto paramDto =new ParamDto();
@@ -68,12 +77,16 @@ public class PathVariableController {
    public Map<String,Object> values(@Value("${config.message}") String message){
     Map<String,Object> map=new HashMap<>();
     map.put("message", message);
+    map.put("message2", environment.getProperty("config.message"));
+    map.put("code2", environment.getProperty("config.code",Long.class));
     map.put("username", username);
     map.put("code", code);
     map.put("listOfValues", listOfValues);
     map.put("valueList", valueList);
     map.put("valueString", valueString);
-
+    map.put("valueMap", valuesMap);
+    map.put("product", product);
+    map.put("price", price);
     return map;
 
    }
